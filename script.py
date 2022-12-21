@@ -5,7 +5,8 @@ import pandas as pd
 
 def getData(url):
     req = Request(url)
-    req.add_header('user-agent', 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US) AppleWebKit/534.20 (KHTML, like Gecko) Chrome/11.0.672.2 Safari/534.20')
+    req.add_header('user-agent', 
+        'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US) AppleWebKit/534.20 (KHTML, like Gecko) Chrome/11.0.672.2 Safari/534.20')
     client = urlopen(req)
     res = client.read()
     client.close()
@@ -49,7 +50,8 @@ def extractInfo(soup):
 
 def getNextPage(soup):
     try:
-        url = 'https://www.amazon.ca' + soup.find('a', {'class': 's-pagination-item s-pagination-next s-pagination-button s-pagination-separator'})['href']
+        url = 'https://www.amazon.ca' + soup.find('a', {'class': 
+            's-pagination-item s-pagination-next s-pagination-button s-pagination-separator'})['href']
         return url
     except:
         return
