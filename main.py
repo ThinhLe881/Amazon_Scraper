@@ -16,10 +16,12 @@ def getData(url):
 def extractInfo(soup):
     deals = []
     products = soup.find_all('div', {'data-component-type': 's-search-result'})
+
     for item in products:
         title = item.find('a', {'class': 'a-link-normal s-underline-text s-underline-link-text s-link-style a-text-normal'})
         name = title.text.strip()
         link = 'https://www.amazon.ca' + title['href']
+
         try:
             price = item.find_all('span', {'class': 'a-offscreen'})
             sale_price = float(price[0].text.replace('$','').replace(',','').strip())
@@ -31,12 +33,14 @@ def extractInfo(soup):
             except:
                 old_price = -1
                 sale_price = -1
+
         try:
             reviews = item.find('span', {'class': 'a-size-base s-underline-text'}).text.replace(',','').strip('()')
             stars = float(item.find('span', {'class': 'a-icon-alt'}).text.strip()[0:3])
         except:
             reviews = 0
             stars = 0
+
         deal = {
             'name': name,
             'link': link,
@@ -46,6 +50,7 @@ def extractInfo(soup):
             'stars': stars   
             }
         deals.append(deal)
+
     return deals
 
 def getNextPage(soup):
@@ -65,10 +70,12 @@ def main():
     url = f'https://www.amazon.ca/s?k={search_term}'
 
     print('Scraping products...')
+
     while True:
         data = getData(url)
         deals = extractInfo(data)
         url = getNextPage(data)
+        
         if not url:
             print('Scraping done.')
             break
